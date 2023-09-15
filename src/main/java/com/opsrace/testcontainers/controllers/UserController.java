@@ -1,21 +1,30 @@
 package com.opsrace.testcontainers.controllers;
 
 import com.opsrace.testcontainers.User;
-import com.opsrace.testcontainers.UserRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 public class UserController {
-    private final UserRepository userRepository;
+    private final UserService service;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService service) {
+        this.service = service;
     }
 
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+        return service.save(user);
     }
+
+    @GetMapping("/create")
+    public User createUser2(@RequestParam("name") String name) {
+
+        log.info("User creation request received...");
+
+        return service.create(name);
+
+    }
+
 }

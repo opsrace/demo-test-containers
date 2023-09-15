@@ -1,7 +1,10 @@
 package com.opsrace.testcontainers;
 
 import com.zaxxer.hikari.HikariDataSource;
+
 import javax.sql.DataSource;
+
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,12 +15,14 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.AfterEach;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
+@Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 public class UserControllerTest {
@@ -64,5 +69,7 @@ public class UserControllerTest {
         User response = restTemplate.postForObject("http://localhost:" + port + "/users", user, User.class);
         assertThat(response).isNotNull();
         assertThat(response.getId()).isNotNull();
+
+        log.info("*********************** Test is passed *****************************");
     }
 }
